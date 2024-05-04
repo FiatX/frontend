@@ -82,9 +82,10 @@ const OffRamp = ({
 
 const DetailModal = () => {};
 
-export default function page() {
+export default function Page() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
+
   return (
     <div>
       <TopBar />

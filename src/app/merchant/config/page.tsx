@@ -38,7 +38,7 @@ const ConfigurationInput = ({
   );
 };
 
-export default function page() {
+export default function Page() {
   const [currency, setCurrency] = useState("");
   const [paymentRail, setPaymentRail] = useState("");
 

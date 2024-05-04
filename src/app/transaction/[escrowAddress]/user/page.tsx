@@ -34,7 +34,7 @@ const Status = ({ stat = false }: { stat?: Boolean }) => {
   );
 };
 
-export default function user() {
+export default function User() {
   //user send fiat
   //mechants lock crypto
 

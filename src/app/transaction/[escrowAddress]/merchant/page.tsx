@@ -1,6 +1,6 @@
 "use client";
 import { Button, Divider } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -34,7 +34,7 @@ const Status = ({ stat = false }: { stat?: Boolean }) => {
   );
 };
 
-export default function merchant() {
+export default function Merchant() {
   //mechants lock crypto
   //user send fiat
 
@@ -44,6 +44,14 @@ export default function merchant() {
 
   // case1: merchant lock crypto and recieve fiat
   //ONRAMP
+
+  //FETCH DB Data
+  const [fiatSent, setFiatSent] = useState(false);
+  function handleFiatSent() {
+    //update db state
+    // address | fiat sent? |
+    setFiatSent(true);
+  }
   return (
     <div>
       <TopBar id={pathname.split("/")[2]} />

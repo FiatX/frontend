@@ -53,7 +53,7 @@ const ActiveAds = ({
   </div>
 );
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   return (
     <div>
