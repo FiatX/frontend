@@ -11,7 +11,7 @@ import { useAccount, useReadContract } from "wagmi";
 
 export default function Home() {
   const router = useRouter();
-  const onSuccess = (proof: any) => {
+  const OnSuccess = (proof: any) => {
     const { data: balance } = useReadContract({
       // ...wagmiContractConfig,
       functionName: "balanceOf",
@@ -32,7 +32,7 @@ export default function Home() {
         app_id="app_GBkZ1KlVUdFTjeMXKlVUdFT" // must be an app set to on-chain in Developer Portal
         action="verify"
         signal={walletAddress} // proof will only verify if the signal is unchanged, this prevents tampering
-        onSuccess={onSuccess} // use onSuccess to call your smart contract
+        onSuccess={OnSuccess} // use onSuccess to call your smart contract
       >
         {({ open }) => <Button onClick={open}>Verify with World ID</Button>}
       </IDKitWidget>
