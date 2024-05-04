@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { createClient } from "@supabase/supabase-js";
+import { metaMask } from "wagmi/connectors";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -54,7 +55,10 @@ export default function Merchant() {
 
   //FETCH DB Data
   const [fiatSent, setFiatSent] = useState(false);
-  const [cryptoRecieved, setCryptoRevieved] = useState(false);
+  const [fiatRecieved, setFiatRecieved] = useState(false);
+
+  const [cryptoSent, setCryptoSent] = useState(false);
+  const [cryptoRecieved, setCryptoRecieved] = useState(false);
 
   function handleFiatSent() {
     //update db state
@@ -62,29 +66,37 @@ export default function Merchant() {
     setFiatSent(true);
   }
 
-  async function checkFiatRecieved() {
+  async function handleFiatRecieved() {
     const { data } = await supabase
       .from("transactions")
       .select("fiatSent")
       .eq("address", address)
       .single();
     setFiatSent(data!.fiatSent);
-    return fiatSent;
+  }
+
+  async function handleCryptoSent() {
+    const { data } = await supabase
+      .from("transactions")
+      .update({ cryptoSent: true })
+      .eq("address", address)
+      .single();
+    setCryptoSent(true);
   }
 
   async function checkDB() {
-    // check if fiat sent?
-    // check if fiat recieved
-    // chec
     const { data } = await supabase
       .from("transactions")
       .select("*")
       .eq("address", address)
       .single();
-    console.log(data);
+    setFiatSent(data!.fiatSent);
+    setFiatRecieved(data!.fiatRecieved);
+    setCryptoSent(data!.cryptoSent);
+    setCryptoRecieved(data!.cryptoRecieved);
   }
+
   useEffect(() => {
-    checkFiatRecieved();
     checkDB();
   }, []);
 
@@ -100,11 +112,21 @@ export default function Merchant() {
           </div>
           <div className="flex flex-col justify-center items-center">
             <>Transfer Crypto</>
-            <Status stat={cryptoRecieved} />
+            <Status stat={cryptoSent} />
           </div>
         </div>
 
-        {!fiatSent ? (
+        {cryptoRecieved && cryptoSent && fiatSent ? (
+          <>Transaction complete</>
+        ) : cryptoSent && fiatSent ? (
+          <>
+            Your counterparty is currently in the process of verifying the
+            receipt of 6,000 USDC to his address 0x987654321zyxwuvqxlaue on
+            Base. This page will automatically update once your counterparty has
+            verified the receipt and is now ready to settle this transaction.
+            Timeout is set at 15 mins. No action is required for now.
+          </>
+        ) : !fiatSent ? (
           <div className="w-[60%]">{`Your counterparty is currently in the process of transferring AUD 9,308.4 to your bank 061111-12345678 (Commonwealth) or 052222-12345678 (Westpac).
 
                   This page will automatically update once your counterparty has made the transfer and is now ready to receive crypto.
@@ -129,7 +151,9 @@ export default function Merchant() {
               <Button colorScheme="red">
                 Fiat not received, Raise Dispute
               </Button>
-              <Button colorScheme="green">Fiat Recieved, Crypto Sent</Button>
+              <Button colorScheme="green" onClick={handleCryptoSent}>
+                Fiat Recieved, Crypto Sent
+              </Button>
             </div>
           </div>
         )}

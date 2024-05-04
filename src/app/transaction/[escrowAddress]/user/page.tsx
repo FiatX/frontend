@@ -55,50 +55,78 @@ export default function User() {
   // offchain data:
   // fiat sent status
   const [fiatSent, setFiatSent] = useState(false);
-  const [cryptoRecieved, setCryptoRevieved] = useState(false);
+  const [fiatRecieved, setFiatRecieved] = useState(false);
+
+  const [cryptoSent, setCryptoSent] = useState(false);
+  const [cryptoRecieved, setCryptoRecieved] = useState(false);
 
   async function handleFiatSent() {
     //update db state
     // address | fiat sent?
-    const { data } = await supabase.from("transactions").select();
-    console.log(data);
+    const { error } = await supabase
+      .from("transactions")
+      .update({ fiatSent: true })
+      .eq("address", address);
+    console.error(error);
     setFiatSent(true);
   }
 
   async function handleCyptoRecieved() {
     //update db state
     // address | fiat sent?
-    const { data } = await supabase.from("transactions").select();
     const { error } = await supabase
       .from("transactions")
-      .update({ cryptoSent: true })
+      .update({ cryptoRecieved: true })
       .eq("address", address);
     console.error(error);
-    setFiatSent(true);
+    setCryptoRecieved(true);
   }
 
   async function checkFiatSent() {
     const { data } = await supabase
       .from("transactions")
-      .select("fiatSent")
+      .update({ fiatSent: true })
       .eq("address", address)
       .single();
-    setFiatSent(data!.fiatSent);
+    setFiatSent(true);
     return fiatSent;
+  }
+  async function handleCryptoRecieved() {
+    const { data } = await supabase
+      .from("transactions")
+      .update({ cryptoRecieved: true })
+      .eq("address", address)
+      .single();
+    console.log(data);
+    setCryptoRecieved(true);
+    return cryptoSent;
+  }
+
+  async function checkDB() {
+    const { data } = await supabase
+      .from("transactions")
+      .select("*")
+      .eq("address", address)
+      .single();
+    console.log(data);
+    setFiatSent(data!.fiatSent);
+    // setFiatRecieved(data!.fiatRecieved);
+    // setCryptoSent(data!.cryptoSent);
+    setCryptoRecieved(data!.cryptoRecieved);
   }
 
   useEffect(() => {
-    checkFiatSent();
+    checkDB();
   }, []);
 
-  const { address: walletAddress, isConnecting, isDisconnected } = useAccount();
-  const onSuccess = (data: any) => {
-    return;
-  };
+  // const { address: walletAddress, isConnecting, isDisconnected } = useAccount();
+  // const onSuccess = (data: any) => {
+  //   return;
+  // };
   return (
     <div>
       <TopBar id={address} />
-      <ConnectButton />
+      {/* <ConnectButton /> */}
       <div className="flex justify-center flex-col items-center gap-5 mt-3">
         <div className="text-3xl italic">Progress</div>
         <div className="grid grid-cols-2 justify-center items-center gap-40">
@@ -117,8 +145,9 @@ export default function User() {
           expedita eligendi? Quae laudantium placeat odio aperiam sequi vitae
           omnis praesentium dolore possimus magnam.
         </div>
-        {/* check fiat sent or not on db*/}
-        {!fiatSent ? (
+        {cryptoRecieved && fiatSent ? (
+          <>Transaction complete</>
+        ) : !fiatSent ? (
           <div>
             <Button colorScheme="red">Cancel Transaction</Button>
             <Button colorScheme="blue" onClick={handleFiatSent}>
@@ -130,7 +159,9 @@ export default function User() {
             <Button colorScheme="red">
               Crypto not Recieved, Raise Dispute
             </Button>
-            <Button colorScheme="green">Crypto Recieved, Settle P2P</Button>
+            <Button colorScheme="green" onClick={handleCryptoRecieved}>
+              Crypto Recieved, Settle P2P
+            </Button>
           </div>
         )}
       </div>
