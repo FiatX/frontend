@@ -15,6 +15,7 @@ export default function SmartContract() {
 
     const { amount, setAmount, handleClick } = useRegisterMerchant();
     const {amount: amount2, setAmount: setAmount2, symbol, setSymbol, fiatAmount, setFiatAmount, handleClick: handlePostOffer} = usePostOfferOnRamp();
+    const {getOffers} = GetAllPostOffer();
     // const {data, refetch} = useReadContract({
     //     address: (process.env.NEXT_PUBLIC_REGISTRY_ADDRESS as `0x${string}`) || "",
     //     abi: RegistryContract.abi,
@@ -56,6 +57,11 @@ export default function SmartContract() {
             </div>
             <div>
                 <EscrowSettle address="0xb01d20A679d64Db888f5AFAD35dB589a2Fb8368d" />
+            </div>
+            <div>
+                <Button onClick={getOffers}>
+                    Get all poster
+                </Button>
             </div>
         </div>
     );
