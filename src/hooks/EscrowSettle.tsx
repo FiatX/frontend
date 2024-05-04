@@ -28,6 +28,36 @@ export const EscrowSettle = ({address}: Props) => {
     const { writeContract } = useWriteContract();
     const {writeContract: handleApprove} = useWriteContract();
 
+    const settle = async() => {
+        try {
+            console.log("Transfer Token");
+            if (!window.ethereum) {
+              alert("Connect your wallet");
+              return;
+            }
+      
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+      
+            const escrow = new ethers.Contract(
+              address,
+              EscrowContract.abi,
+              signer
+            );
+      
+            const contractAddress = new ethers.Contract(address, EscrowContract.abi, signer);
+      
+            const approveTx = await contractAddress.settle(
+            );
+      
+            const resApproveTx = await approveTx.wait();
+            console.log(resApproveTx);
+          } catch (e) {
+            console.error("Error settle tokens:", e);
+            alert(e);
+          }
+    }
+
     const handleClick = () => {
         console.log(address);
         handleApprove({
@@ -36,20 +66,7 @@ export const EscrowSettle = ({address}: Props) => {
             functionName: "approve",
             args: [address, ethers.utils.parseUnits("100", 18)],
         })
-        writeContract({
-            address: (address as `0x${string}`) || "",
-            abi: EscrowContract.abi,
-            functionName: "settle",
-            args: [],
-        },{
-            onSuccess() {
-                console.log("Success");
-              },
-              onError(error) {
-                console.log(error);
-              },
-        }
-        )
+        settle();
     }
 
     return (
