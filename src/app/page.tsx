@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@chakra-ui/react";
+import { Button, Image } from "@chakra-ui/react";
 import Logo from "../components/logo";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { IDKitWidget } from "@worldcoin/idkit";
@@ -22,8 +22,11 @@ export default function Home() {
   const { address: walletAddress, isConnecting, isDisconnected } = useAccount();
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <Logo />
+    <div className=" bg-[url('/nounsbg.jpg')] w-full h-screen bg-cover bg-center bg-no-repeat flex-col flex justify-center items-center text-center gap-5">
+      <Image src="/fxnamelogo.png" alt="fxlogo" />
+      <div className="font-extrabold text-xl">
+        Onchain. Decentralized. Unstoppable
+      </div>
       <ConnectButton />
       <IDKitWidget
         app_id="app_GBkZ1KlVUdFTjeMXKlVUdFT" // must be an app set to on-chain in Developer Portal
