@@ -3,6 +3,8 @@ import { Button, Divider } from "@chakra-ui/react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Image } from "@chakra-ui/react";
+import { useReadContract } from "wagmi";
+import { useRegisterMerchant } from "@/hooks/RegisterMerchant";
 // import Divider from "@/components/divider";
 
 function TopBar() {
@@ -101,6 +103,13 @@ const OngoingCards = ({
 
 export default function Page() {
   const router = useRouter();
+
+  // const { data: balance } = useReadContract({
+  //   ...wagmiContractConfig,
+  //   functionName: "balanceOf",
+  //   args: ["0x03A71968491d55603FFe1b11A9e23eF013f75bCF"],
+  // });
+
   return (
     <div>
       <TopBar />
@@ -117,8 +126,11 @@ export default function Page() {
       <Divider />
       <div className="px-[5%] pt-5 flex justify-between">
         <div>Active Ads</div>
-        <Button colorScheme="twitter" onClick={() => router.replace(`/`)}>
-          Create new ad{" "}
+        <Button
+          colorScheme="twitter"
+          onClick={() => router.replace(`/merchant/newAd`)}
+        >
+          Create new ad
         </Button>
       </div>
       <div className="flex flex-col items-center py-5 my-5 justify-items-start bg-slate-500 rounded-lg mx-5 gap-5">

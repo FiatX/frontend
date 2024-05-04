@@ -127,13 +127,17 @@ export default function Page() {
       <div className="grid grid-cols-2 gap-4 mt-5">
         <div className="col-span-1 justify-center items-center flex flex-col">
           <div className="pb-5">On Ramp</div>
-          <OnRamp price={"100"} limit={"22"} id={"aaaa"} />
-          <OnRamp price={"1111100"} limit={"22222"} id={"aaaaaafaa"} />
+          <div className="flex flex-col space-y-5">
+            <OnRamp price={"100"} limit={"22"} id={"aaaa"} />
+            <OnRamp price={"1111100"} limit={"22222"} id={"aaaaaafaa"} />
+          </div>
         </div>
 
         <div className="col-span-1 items-center flex flex-col">
           <div className="pb-5">Off Ramp</div>
-          <OffRamp price={"100"} limit={"22"} id={"dsa"} />
+          <div className="flex flex-col gap-5">
+            <OffRamp price={"100"} limit={"22"} id={"dsa"} />
+          </div>
         </div>
       </div>
     </div>
