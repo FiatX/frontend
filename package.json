@@ -20,6 +20,7 @@
     "framer-motion": "^11.1.7",
     "next": "14.2.3",
     "react": "^18",
+    "ethers": "^5.7.0",
     "react-dom": "^18",
     "viem": "^2.9.31",
     "wagmi": "^2.8.0"

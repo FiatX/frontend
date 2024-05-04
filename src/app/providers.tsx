@@ -40,6 +40,7 @@ const config = getDefaultConfig({
     polygon,
     optimism,
     arbitrum,
+    sepolia,
     base,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [sepolia] : []),
   ],
