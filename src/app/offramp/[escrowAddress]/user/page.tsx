@@ -105,7 +105,7 @@ export default function OffchainUser() {
               onClick={() => router.replace(`/dashboard`)}
             >
               Back to Dashboard
-            </Button>{" "}
+            </Button>
           </>
         ) : fiatSent ? (
           <>

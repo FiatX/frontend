@@ -3,6 +3,7 @@ import { Button, Divider } from "@chakra-ui/react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Image } from "@chakra-ui/react";
+// import Divider from "@/components/divider";
 
 function TopBar() {
   const router = useRouter();
@@ -58,22 +59,69 @@ const ActiveAds = ({
   </div>
 );
 
+const OngoingCards = ({
+  price,
+  limit,
+  id,
+  sell = false,
+}: {
+  price: string;
+  limit: string;
+  id: string;
+  sell?: boolean;
+}) => {
+  const router = useRouter();
+  return (
+    <div
+      className={`flex justify-between ${
+        sell ? "bg-red-400" : "bg-blue-400"
+      } p-4 rounded-md w-[90%]`}
+    >
+      <div className="flex flex-col text-xl">
+        <div>{price}</div>
+        <div>Transaction Limit {limit}</div>
+      </div>
+      <div className="flex flex-col gap-2">
+        {sell ? (
+          <div className="underline">Sell Crypto</div>
+        ) : (
+          <div className="underline">Buy Crypto</div>
+        )}
+        <Button
+          onClick={() =>
+            router.replace(`/${sell ? `onramp` : `offramp`}/${id}/merchant`)
+          }
+        >
+          Go to transaction
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 export default function Page() {
   const router = useRouter();
   return (
     <div>
       <TopBar />
-      {/* {DATA IN PROGRESS } */}
-      <></>
-
+      <div className="px-[5%] pt-5">
+        <div>In Progress: Action Needed</div>
+      </div>
+      <div className="flex flex-col items-center py-5 my-5 justify-items-start bg-slate-500 rounded-lg mx-5 gap-5">
+        <OngoingCards price="100" limit="1000" id="aaaa" sell />
+      </div>
+      {/* {Data?.map((data) => {
+        <div></div>;
+      })} */}
       {/* ACTIVE Ads */}
+      <Divider />
       <div className="px-[5%] pt-5 flex justify-between">
         <div>Active Ads</div>
         <Button colorScheme="twitter" onClick={() => router.replace(`/`)}>
           Create new ad{" "}
         </Button>
       </div>
-      <div className="flex flex-col items-center py-5 my-5 justify-items-start bg-slate-500 min-h-[500px] rounded-lg mx-5 gap-5">
+      <div className="flex flex-col items-center py-5 my-5 justify-items-start bg-slate-500 rounded-lg mx-5 gap-5">
         <ActiveAds price="100" limit="1000" />
         <ActiveAds price="100" limit="1000" sell />
         <ActiveAds price="100" limit="1000" />

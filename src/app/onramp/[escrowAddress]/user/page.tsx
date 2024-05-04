@@ -46,6 +46,8 @@ const Status = ({ stat = false }: { stat?: Boolean }) => {
 };
 
 export default function User() {
+  const router = useRouter();
+
   //user send fiat
   //mechants lock crypto
 
@@ -93,8 +95,8 @@ export default function User() {
       .single();
     console.log(data);
     setFiatSent(data!.fiatSent);
-    // setFiatRecieved(data!.fiatRecieved);
-    // setCryptoSent(data!.cryptoSent);
+    setFiatRecieved(data!.fiatRecieved);
+    setCryptoSent(data!.cryptoSent);
     setCryptoRecieved(data!.cryptoRecieved);
   }
 
@@ -115,44 +117,68 @@ export default function User() {
           </div>
           <div className="flex flex-col justify-center items-center">
             <>Recieve Crypto</>
-            <Status stat={cryptoRecieved} />
+            <Status stat={cryptoSent} />
           </div>
         </div>
-        <div className="w-[60%]">
-          Description Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Excepturi temporibus aliquam, nisi doloremque delectus ad illo
-          expedita eligendi? Quae laudantium placeat odio aperiam sequi vitae
-          omnis praesentium dolore possimus magnam.
-        </div>
-        {cryptoRecieved && fiatSent ? (
-          <>Transaction complete</>
-        ) : !fiatSent ? (
-          <div>
-            <Button colorScheme="red">Cancel Transaction</Button>
-            <Button colorScheme="blue" onClick={handleFiatSent}>
-              Transferred, notify Merchant
+
+        {cryptoSent && fiatSent ? (
+          <div className="flex flex-col gap-5">
+            <div>Transaction complete</div>
+            <Button
+              colorScheme="red"
+              onClick={() => router.replace(`/dashboard`)}
+            >
+              Back to Dashboard
             </Button>
+          </div>
+        ) : !fiatSent ? (
+          <div className="flex justify-center flex-col items-center gap-5 mt-3">
+            <div className="w-[60%]">
+              <div>Action items: </div>
+              <ul style={{ listStyleType: "disc" }}>
+                <li>
+                  Transfer IDR 1,633,000.00 from your bank account 8210644793
+                  (BCA) to your merchant’s bank account 4287779789 (BCA).
+                </li>
+                <li>
+                  Once fiat transfer is successful, click “transferred, notify
+                  merchant” button.
+                </li>
+                <li>
+                  Should you wish to cancel the trade, DO NOT transfer fiat and
+                  press “cancel transaction”. If you have transferred fiat, you
+                  MUST notify your merchant to complete the trade – not doing so
+                  may result in permanent loss of funds.
+                </li>
+              </ul>
+            </div>
+            <div className="flex flex-row gap-5">
+              <Button colorScheme="red">Cancel Transaction</Button>
+              <Button colorScheme="blue" onClick={handleFiatSent}>
+                Transferred, notify Merchant
+              </Button>
+            </div>
           </div>
         ) : (
-          <div>
-            <Button colorScheme="red">
-              Crypto not Recieved, Raise Dispute
-            </Button>
-            <Button colorScheme="green" onClick={handleCryptoRecieved}>
-              Crypto Recieved, Settle P2P
-            </Button>
+          <div className="w-[60%] flex justify-center flex-col items-center gap-5 mt-3">
+            <ul className="space-y-5">
+              <li>
+                Your merchant is currently in the process of verifying the
+                receipt of IDR 1,633,000.00 in the bank account 4287779789
+                (BCA).
+              </li>
+              <li>
+                This page will automatically update once your counterparty has
+                verified the receipt and settled this transaction.
+              </li>
+              <li>
+                Transaction time limit is set at 15 mins. No action is required
+                for now.
+              </li>
+            </ul>
           </div>
         )}
       </div>
-
-      {/* <IDKitWidget
-        app_id="app_GBkZ1KlVUdFTjeMXKlVUdFT" // must be an app set to on-chain in Developer Portal
-        action="verify"
-        signal={walletAddress} // proof will only verify if the signal is unchanged, this prevents tampering
-        onSuccess={onSuccess} // use onSuccess to call your smart contract
-      >
-        {({ open }) => <Button onClick={open}>Verify with World ID</Button>}
-      </IDKitWidget> */}
     </div>
   );
 }

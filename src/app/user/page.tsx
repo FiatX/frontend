@@ -36,21 +36,52 @@ const OnRamp = ({
   price,
   limit,
   id,
-}: {
+}: // onOpen,
+// isOpen,
+// onClose,
+{
   price: string;
   limit: string;
   id: string;
 }) => {
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <div className="flex justify-between bg-green-400 p-4 rounded-md w-[90%]">
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <>{price}</>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button
+              colorScheme="blue"
+              onClick={() => router.replace(`/onramp/${id}/user`)}
+            >
+              Start onRamp
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col text-xl">
         <div>AUD {price}</div>
         <div>Transaction Limit {limit}</div>
       </div>
       <div className="flex items-center justify-center">
-        <Button onClick={() => router.replace(`/onramp/${id}/user`)}>
+        <Button
+          onClick={
+            onOpen
+            // () => router.replace(`/onramp/${id}/user`)
+          }
+        >
           Details
         </Button>
       </div>
@@ -87,9 +118,7 @@ const OffRamp = ({
 const DetailModal = () => {};
 
 export default function Page() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-
   return (
     <div>
       <TopBar />
@@ -99,6 +128,7 @@ export default function Page() {
         <div className="col-span-1 justify-center items-center flex flex-col">
           <div className="pb-5">On Ramp</div>
           <OnRamp price={"100"} limit={"22"} id={"aaaa"} />
+          <OnRamp price={"1111100"} limit={"22222"} id={"aaaaaafaa"} />
         </div>
 
         <div className="col-span-1 items-center flex flex-col">
@@ -106,29 +136,6 @@ export default function Page() {
           <OffRamp price={"100"} limit={"22"} id={"dsa"} />
         </div>
       </div>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-              ducimus, non ea est quidem repellat, totam dolore, dicta ullam
-              dolores assumenda sed rem. Iure consequuntur maiores quas magnam
-              quibusdam porro.
-            </>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </div>
   );
 }
