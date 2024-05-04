@@ -2,12 +2,17 @@
 import { Button, Divider } from "@chakra-ui/react";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { Image } from "@chakra-ui/react";
 
 function TopBar() {
   const router = useRouter();
   return (
-    <div className="h-20 bg-slate-200 flex flex-row justify-between p-5">
-      <div className="text-3xl">Merchant Dashboard</div>
+    <div className="h-20 bg-slate-400 flex flex-row justify-between p-5">
+      <div className="flex flex-row gap-3">
+        <Image className="w-[36px] h-[36px]" src="/fxlogo.png" alt="fxlogo" />
+        <div className="text-3xl">Merchant Dashboard</div>
+      </div>
+
       <div className="space-x-3">
         <Button colorScheme="red" onClick={() => router.replace(`/dashboard`)}>
           Back to Dashboard

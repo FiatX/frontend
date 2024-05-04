@@ -1,5 +1,5 @@
 "use client";
-import { Button, Divider } from "@chakra-ui/react";
+import { Button, Image } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -15,8 +15,11 @@ const supabase = createClient(
 const TopBar = ({ id }: { id: string }) => {
   const router = useRouter();
   return (
-    <div className="h-20 bg-slate-200 flex flex-row justify-between p-5">
-      <div className="text-3xl">Trasaction {id}</div>
+    <div className="h-20 bg-slate-400 flex flex-row justify-between p-5">
+      <div className="flex flex-row gap-3">
+        <Image className="w-[36px] h-[36px]" src="/fxlogo.png" alt="fxlogo" />
+        <div className="text-3xl">Trasaction {id}</div>
+      </div>
       <div className="space-x-3">
         <Button colorScheme="red" onClick={() => router.replace(`/dashboard`)}>
           Back to Dashboard
@@ -71,26 +74,6 @@ export default function User() {
     setFiatSent(true);
   }
 
-  async function handleCyptoRecieved() {
-    //update db state
-    // address | fiat sent?
-    const { error } = await supabase
-      .from("transactions")
-      .update({ cryptoRecieved: true })
-      .eq("address", address);
-    console.error(error);
-    setCryptoRecieved(true);
-  }
-
-  async function checkFiatSent() {
-    const { data } = await supabase
-      .from("transactions")
-      .update({ fiatSent: true })
-      .eq("address", address)
-      .single();
-    setFiatSent(true);
-    return fiatSent;
-  }
   async function handleCryptoRecieved() {
     const { data } = await supabase
       .from("transactions")
@@ -119,10 +102,6 @@ export default function User() {
     checkDB();
   }, []);
 
-  // const { address: walletAddress, isConnecting, isDisconnected } = useAccount();
-  // const onSuccess = (data: any) => {
-  //   return;
-  // };
   return (
     <div>
       <TopBar id={address} />

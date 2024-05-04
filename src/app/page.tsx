@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { Button } from "@chakra-ui/react";
 import Logo from "../components/logo";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import "../fonts/Nunito.ttf";
 import { IDKitWidget } from "@worldcoin/idkit";
 import { useAccount, useReadContract } from "wagmi";
+// import "../fonts/Nunito.ttf";
 
 export default function Home() {
   const router = useRouter();

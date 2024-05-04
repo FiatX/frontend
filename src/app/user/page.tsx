@@ -2,6 +2,7 @@
 import Divider from "@/components/divider";
 import {
   Divider as ChakraDivider,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,8 +19,11 @@ import React from "react";
 function TopBar() {
   const router = useRouter();
   return (
-    <div className="h-20 bg-slate-200 flex flex-row justify-between p-5">
-      <div className="text-3xl">P2P Dashboard</div>
+    <div className="h-20 bg-slate-400 flex flex-row justify-between p-5">
+      <div className="flex flex-row gap-3">
+        <Image className="w-[36px] h-[36px]" src="/fxlogo.png" alt="fxlogo" />
+        <div className="text-3xl">P2P Dashboard</div>
+      </div>
       <div>
         <Button colorScheme="red" onClick={() => router.replace(`/dashboard`)}>
           Back to Dashboard
@@ -46,7 +50,7 @@ const OnRamp = ({
         <div>Transaction Limit {limit}</div>
       </div>
       <div className="flex items-center justify-center">
-        <Button onClick={() => router.replace(`/transaction/${id}/user`)}>
+        <Button onClick={() => router.replace(`/onramp/${id}/user`)}>
           Details
         </Button>
       </div>
@@ -72,7 +76,7 @@ const OffRamp = ({
         <div>Transaction Limit {limit}</div>
       </div>
       <div className="flex items-center justify-center">
-        <Button onClick={() => router.replace(`/transaction/${id}/user`)}>
+        <Button onClick={() => router.replace(`/offramp/${id}/user`)}>
           Details
         </Button>
       </div>
@@ -94,7 +98,7 @@ export default function Page() {
       <div className="grid grid-cols-2 gap-4 mt-5">
         <div className="col-span-1 justify-center items-center flex flex-col">
           <div className="pb-5">On Ramp</div>
-          <OnRamp price={"100"} limit={"22"} id={"wasd"} />
+          <OnRamp price={"100"} limit={"22"} id={"aaaa"} />
         </div>
 
         <div className="col-span-1 items-center flex flex-col">

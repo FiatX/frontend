@@ -4,12 +4,16 @@ import Logo from "@/components/logo";
 import { Button, Input } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import Divider from "@/components/divider";
+import { Image } from "@chakra-ui/react";
 
 function TopBar() {
   const router = useRouter();
   return (
-    <div className="h-20 flex flex-row justify-between p-5">
-      <div className="text-3xl">Merchant Configuration</div>
+    <div className="h-20 bg-slate-400 flex flex-row justify-between p-5">
+      <div className="flex flex-row gap-3">
+        <Image className="w-[36px] h-[36px]" src="/fxlogo.png" alt="fxlogo" />
+        <div className="text-3xl">Merchant Configuration</div>
+      </div>
     </div>
   );
 }
