@@ -1,4 +1,4 @@
-import { useAccount, useReadContract, useSimulateContract, useWriteContract } from "wagmi"
+import { useAccount, useReadContract, useSimulateContract, useWatchContractEvent, useWriteContract } from "wagmi"
 import RouterContract from "../abi/RouterContract.json";
 import GovernanceContract from "../abi/GovernanceDispute.json";
 import { useEffect, useState } from "react";
@@ -21,6 +21,15 @@ export const OnRamp = () => {
     })
 
     const { writeContract } = useWriteContract();
+
+    useWatchContractEvent({
+        address: (process.env.NEXT_PUBLIC_ROUTER_ADDRESS as `0x${string}`) || "",
+        abi: RouterContract.abi,
+        eventName: 'OnRampCreated',
+        onLogs(logs) {
+          console.log('New logs!', logs)
+        },
+      })
 
     const handleClick = () => {
         if(adjudicator1 === "" || adjudicator2 === "" || adjudicator3 === "" ){
