@@ -14,9 +14,13 @@ function TopBar() {
         <Image className="w-[36px] h-[36px]" src="/fxlogo.png" alt="fxlogo" />
         <div className="text-3xl">Merchant Configuration</div>
       </div>
+      <Button colorScheme="red" onClick={() => router.replace(`/merchant`)}>
+        Back to Merchant Dashboard
+      </Button>
     </div>
   );
 }
+
 const ConfigurationInput = ({
   label,
   setter,

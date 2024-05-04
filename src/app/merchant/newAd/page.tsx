@@ -50,7 +50,7 @@ const AdInput = ({
   );
 };
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
 
   const [adType, setAdType] = useState("sell");
@@ -61,31 +61,33 @@ export default function page() {
   const [time, setTime] = useState("15 mins");
   const [maxTradeSize, setMaxTradeSize] = useState("");
 
+  const {
+    amount: amountonRamp,
+    setAmount: setAmountonRamp,
+    symbol: symbolonRamp,
+    setSymbol: setSymbolonRamp,
+    fiatAmount: fiatAmountonRamp,
+    setFiatAmount: setFiatAmountonRamp,
+    handleClick: handleClickonRamp,
+  } = usePostOfferOnRamp();
+
+  const {
+    amount,
+    setAmount,
+    symbol,
+    setSymbol,
+    fiatAmount,
+    setFiatAmount,
+    handleClick,
+  } = usePostOfferOffRamp();
+
   async function submit() {
     if (adType === "sell") {
-      const {
-        amount,
-        setAmount,
-        symbol,
-        setSymbol,
-        fiatAmount,
-        setFiatAmount,
-        handleClick,
-      } = usePostOfferOnRamp();
-      setAmount(amount);
-      setSymbol(symbol);
-      setFiatAmount(fiatAmount);
-      handleClick();
+      setAmountonRamp(parseInt(maxTradeSize));
+      //   setSymbolonRamp(crypto);
+      setFiatAmountonRamp(parseInt(exchangeRate));
+      handleClickonRamp();
     } else {
-      const {
-        amount,
-        setAmount,
-        symbol,
-        setSymbol,
-        fiatAmount,
-        setFiatAmount,
-        handleClick,
-      } = usePostOfferOffRamp();
       setAmount(amount);
       setSymbol(symbol);
       setFiatAmount(fiatAmount);
@@ -159,7 +161,7 @@ export default function page() {
 
         <AdInput label="Max Trade Size" setter={setMaxTradeSize} />
 
-        <Button onClick={() => submit()}>Login</Button>
+        <Button onClick={() => submit()}>Add</Button>
       </div>
     </div>
   );
