@@ -14,6 +14,7 @@ import {
 import {
   arbitrum,
   base,
+  baseSepolia,
   mainnet,
   optimism,
   polygon,
@@ -41,6 +42,7 @@ const config = getDefaultConfig({
     optimism,
     arbitrum,
     sepolia,
+    baseSepolia,
     base,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [sepolia] : []),
   ],

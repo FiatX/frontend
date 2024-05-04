@@ -8,7 +8,6 @@ export default function SmartContract() {
         <div>
             <h1>Smart Contract Page</h1>
             <h2>Amount</h2>
-            <input value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
             <div>
                 <button onClick={handleClick}>
                     Register
